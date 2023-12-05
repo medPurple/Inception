@@ -26,16 +26,17 @@ RUN cat etc/nginx/ssl/inception.crt
 RUN cat etc/nginx/ssl/inception.key
 
 #Verif droit d'acces
-#RUN chmod 777 /etc/nginx/ssl/*
-#RUN chmod 777 -R /var/www 
-#RUN chown -R www-data:www-data /var/www/
+RUN chmod 777 /etc/nginx/ssl/*
+RUN chmod 777 -R /var/www 
+RUN chown -R www-data:www-data /var/www/
 
 #copie de configuation nginx
-COPY conf/nginx.conf /etc/nginx/conf.d
+COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 #Specifie au container le port ecoute
 EXPOSE 443 
 
+RUN nginx -t
 #Lancement de nginx
 CMD ["nginx","-g","daemon off;"]
 
