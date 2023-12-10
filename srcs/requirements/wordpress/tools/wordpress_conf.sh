@@ -1,17 +1,5 @@
 #! bin/sh
 
-SQL_DB_NAME="salut"
-SQL_DB_USR="USR"
-SQL_DB_PSWD="PSW"
-SQL_ROOT_PSWD="PSW"
-
-WP_ADMIN_USER="admin"
-WP_ADMIN_PSS="password"
-WP_ADMIN_EMAIL="wmessmer@42.fr"
-
-WP_USER_NAME="invite"
-WP_USER_PASS="passinvite"
-WP_USER_EMAIL="invite@wp.fr"
 sleep 5
 
 if [ -f "/var/www/html/wp-config.php]" ]
@@ -25,7 +13,7 @@ else
                     --dbhost=mariadb:3306 \
                     --path='/var/www/html'
     wp core install --allow-root \
-                    --url='wmessmer.42.fr' \
+                    --url='localhost' \
                     --title='Wordpress' \
                     --admin_user=$WP_ADMIN_USER \
                     --admin_password=$WP_ADMIN_PASS \
