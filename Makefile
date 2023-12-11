@@ -5,7 +5,7 @@ all:
 
 clean:
 	@sudo docker-compose -f ./srcs/docker-compose.yml down
-	@sudo docker system prune
+	@sudo docker system prune -af
 	@sudo rm -rf /home/data
 
 re : clean all
