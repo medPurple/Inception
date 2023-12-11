@@ -11,61 +11,61 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: '/Users/purple/Desktop/42/Inception/data/wordpress'
+      device: '/home/data/wordpress'
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: '/Users/purple/Desktop/42/Inception/data/mariadb'
+      device: '/home/data/mariadb'
 
 services:
-  mariadb:
-    container_name: mariadb
-    image: mariadb
-    build: requirements/mariadb/
+  nginx:
+    image: nginx
+    container_name: nginx
+    build:
+      context: requirements/nginx
+    ports:
+      - "443:443"
     volumes:
-      - type: bind
-        source: '/Users/purple/Desktop/42/Inception/data/mariadb'
-        target: '/var/lib/mysql/'
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    env_file:
+      - .env
+    restart: always
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    build: 
+      context: requirements/mariadb/
+    volumes:
+      - mariadb:/var/lib/mysql/
     networks:
       - inception
     expose:
       - "3306"
-    env_file: .env
-    restart: always
-  
-  nginx:
-    container_name: nginx
-    image: nginx
-    depends_on:
-      - wordpress
-    build: requirements/nginx
-    volumes:
-      - wordpress:/var/www/html
-    networks:
-      - inception
-    ports:
-      - "443:443"
-    env_file:
+    env_file: 
       - .env
     restart: always
-  
+
   wordpress:
-    container_name: wordpress
     image: wordpress
-    depends_on:
-      - mariadb
-    volumes:
-      - type: bind
-        source: '/Users/purple/Desktop/42/Inception/data/wordpress'
-        target: '/var/www/html'
-    networks:
-      - inception
-    restart: always
+    container_name: wordpress
+    build:
+      context: requirements/wordpress
     expose:
       - "9000"
-    env_file:
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - mariadb
+    networks: 
+      - inception
+    env_file: 
       - .env
-    
+    restart: always

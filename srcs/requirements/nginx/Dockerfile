@@ -1,42 +1,25 @@
-FROM debian:11
+FROM debian:bullseye
 
-MAINTAINER wmessmer<wmessmer@student.42.fr>
+RUN apt update -y && apt upgrade -y && apt install -y nginx
 
-RUN apt update -y 
-RUN apt install -y nginx openssl 
+RUN apt install nano -y
 
-
-#Creation des dossiers et suppression des sites par default nginx
 RUN mkdir -p /etc/nginx/ssl
+
+RUN apt install -y openssl
+
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt \
+                             -keyout /etc/nginx/ssl/inception.key \
+                             -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=wmessmer.42.fr/UID=wmessmer"
+
 RUN mkdir -p /var/run/nginx
-#RUN rm /etc/nginx/sites-available/default
-#RUN rm /etc/nginx/sites-enable/default
 
-#Generation certification ssl
-RUN openssl req -x509 \
-                -days 365 \
-                -newkey rsa:4096 \
-                -nodes \
-                -out /etc/nginx/ssl/inception.crt \
-                -keyout /etc/nginx/ssl/inception.key \
-                -sha256 \
-                -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=wmessmer.42.fr/UID=wmessmer"
-
-RUN cat etc/nginx/ssl/inception.crt
-RUN cat etc/nginx/ssl/inception.key
-
-#Verif droit d'acces
-RUN chmod 777 /etc/nginx/ssl/*
-RUN chmod 777 -R /var/www 
-RUN chown -R www-data:www-data /var/www/
-
-#copie de configuation nginx
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-#Specifie au container le port ecoute
-EXPOSE 443 
+RUN chmod 755 /var/www/html
 
-RUN nginx -t
-#Lancement de nginx
-CMD ["nginx","-g","daemon off;"]
+RUN chown -R www-data:www-data /var/www/html
 
+EXPOSE 443
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -21,4 +21,4 @@ WORKDIR /var/www/html
 
 EXPOSE 9000
 
-ENTRYPOINT [ "sh", "../../../../usr/local/bin/wordpress_conf.sh" ]
+ENTRYPOINT [ "sh", "/usr/local/bin/wordpress_conf.sh" ]

@@ -5,6 +5,7 @@ sleep 5
 if [ -f "/var/www/html/wp-config.php]" ]
 then    echo "WP Already installed / configured"
 else
+    echo "CONFIGURATION"
     wp core download --allow-root
     wp core config   --allow-root \
                     --dbname=$SQL_DB_NAME \
