@@ -1,24 +1,34 @@
-FROM debian:11
+FROM debian:bullseye
 
-MAINTAINER wmessmer<wmessmer@student.42.fr>
+RUN apt update -y && apt upgrade -y && apt-get -y install wget
 
-RUN apt update -y 
-RUN apt-get install -y wget php7.4 php-fpm php-mysql mariadb-client
+RUN apt-get install -y \
+    php7.4 \
+    php-fpm \
+    php-mysql \
+    mariadb-client
 
-RUN mkdir -p /var/www/html /run/php
+RUN mkdir -p /run/php/
 
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN chmod 755 /etc/php/7.4/fpm/pool.d/www.conf
 
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod 777 wp-cli.phar
-RUN mv wp-cli.phar usr/local/bin/wp
 
-COPY tools/wordpress_conf.sh /usr/local/bin/wordpress_conf.sh
-RUN chmod 755 /usr/local/bin/wordpress_conf.sh
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+RUN chmod +x wp-cli.phar
+
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+RUN mkdir -p /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+COPY tools/conf_wordpress.sh /usr/local/bin/conf_wordpress.sh
+RUN chmod 755 /usr/local/bin/conf_wordpress.sh
 
 WORKDIR /var/www/html
 
 EXPOSE 9000
 
-ENTRYPOINT [ "sh", "/usr/local/bin/wordpress_conf.sh" ]
+CMD ["sh", "/usr/local/bin/conf_wordpress.sh"]

@@ -1,14 +1,15 @@
-FROM debian:11
+FROM debian:bullseye
 
-MAINTAINER wmessmer<wmessmer@student.42.fr>
+RUN apt update -y && apt upgrade -y && apt install mariadb-server -y
+
+RUN mkdir -p var/run/mysqld && chown -R mysql:mysql /var/run/mysqld && chmod 755 /var/run/mysqld
+
+COPY conf/mariadb.conf	/etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY tools/script.sh .
+
+RUN chmod 755 ./script.sh
 
 EXPOSE 3306
 
-RUN apt update -y 
-RUN apt install -y mariadb-server 
-
-COPY conf/mariadb.conf etc/mysql/mariadb.conf.d/50-server-cnf
-COPY tools/script.sh .
-
-ENTRYPOINT [ "sh", "script.sh" ]
-
+CMD ["sh", "script.sh"]
