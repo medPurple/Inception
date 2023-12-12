@@ -1,5 +1,7 @@
 FROM debian:bullseye
 
+MAINTAINER <wmessmer@42.fr> 
+
 RUN apt update -y && apt upgrade -y && apt install mariadb-server -y
 
 RUN mkdir -p var/run/mysqld && chown -R mysql:mysql /var/run/mysqld && chmod 755 /var/run/mysqld
