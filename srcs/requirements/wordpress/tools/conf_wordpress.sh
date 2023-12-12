@@ -37,7 +37,7 @@ else
     wp redis enable --allow-root
 
 fi
-
+wp plugin list --allow-root
 exec /usr/sbin/php-fpm7.4 -F
 
 
