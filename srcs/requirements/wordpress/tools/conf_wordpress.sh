@@ -24,6 +24,17 @@ else
                     --user_pass=$WP_USER_PASSWORD \
                     --allow-root
 
+    # BONUS
+
+    wp plugin install redis-cache --activate --allow-root
+    wp config set WP_CACHE 'true' --allow-root
+    wp config set WP_REDIS_HOST redis --allow-root
+    wp config set WP_REDIS_PORT 6379 --allow-root
+    wp config set WP_REDIS_TIMEOUT 1 --allow-root
+    wp config set WP_REDIS_READ_TIMEOUT 1 --allow-root
+    wp config set WP_REDIS_DATABASE 0 --allow-root
+    wp config set WP_CACHE_KEY_SALT "$WP_URL" --allow-root
+    wp redis enable --allow-root
 
 fi
 

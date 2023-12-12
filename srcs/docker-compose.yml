@@ -69,3 +69,19 @@ services:
     env_file: 
       - .env
     restart: always
+
+  redis:
+    image: redis
+    container_name: redis
+    build:
+      context: requirements/bonus/redis
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress:/var/www/html
+    networks: 
+      - inception
+    env_file: 
+      - .env
+    restart: always
+

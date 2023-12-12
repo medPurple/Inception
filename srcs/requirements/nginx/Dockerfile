@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 MAINTAINER <wmessmer@42.fr> 
 
-RUN apt update -y && apt upgrade -y && apt install -y nginx
+RUN apt update -y && apt upgrade -y && apt install -y nginx 
 
 RUN apt install nano -y
 
