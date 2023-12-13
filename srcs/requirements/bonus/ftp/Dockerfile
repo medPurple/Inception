@@ -1,11 +1,9 @@
-FROM debian:11
+FROM debian:bullseye
 
-MAINTAINER <wmessmer@42.fr>
+RUN apt update && apt install -y vsftpd
 
-RUN apt update -y
+COPY ./tools/ftp_script.sh /ftp_script.sh
 
-RUN apt install -y vsftpd
+RUN chmod +x ./ftp_script.sh
 
-COPY conf/vsftpd.conf /etc/vsftpd.conf
-
-CMD ["vsftpd", "/etc/vsftpd.conf"]
+CMD [ "/ftp_script.sh" ]

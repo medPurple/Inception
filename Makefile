@@ -9,6 +9,7 @@ stop:
 clean:
 	@sudo docker-compose -f ./srcs/docker-compose.yml down
 	@sudo docker system prune -af
+	@sudo docker volume prune -af
 	@sudo rm -rf /home/wmessmer/data
 
 re : clean all

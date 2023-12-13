@@ -85,3 +85,18 @@ services:
       - .env
     restart: always
 
+  ftp:
+    image: ftp
+    container_name: ftp
+    build:
+      context: requirements/bonus/ftp
+    ports:
+      - "21:21"
+      - "15100-15110:15100-15110"
+    volumes:
+      - wordpress:/var/www/html
+    networks: 
+      - inception
+    env_file: 
+      - .env
+    restart: always
