@@ -18,7 +18,7 @@ echo "listen_port=21"                       | tee -a /etc/vsftpd.conf
 echo "listen_address=0.0.0.0"               | tee -a /etc/vsftpd.conf
 
 echo "pasv_enable=YES"                      | tee -a /etc/vsftpd.conf
-echo "pasv_min_port=15100"                  | tee -a /etc/vsftpd.conf
+echo "pasv_min_port=15110"                  | tee -a /etc/vsftpd.conf
 echo "pasv_max_port=15111"                  | tee -a /etc/vsftpd.conf
 
 echo "allow_writeable_chroot=YES"           | tee -a /etc/vsftpd.conf

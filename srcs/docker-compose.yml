@@ -19,6 +19,13 @@ volumes:
       type: none
       o: bind
       device: '/home/wmessmer/data/mariadb'
+  website:
+    name: website
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/wmessmer/data/website'
 
 services:
   nginx:
@@ -95,6 +102,21 @@ services:
       - "15100-15110:15100-15110"
     volumes:
       - wordpress:/var/www/html
+    networks: 
+      - inception
+    env_file: 
+      - .env
+    restart: always
+
+  website:
+    image: website
+    container_name: website
+    build:
+      context: requirements/bonus/website
+    ports:
+      - "4242:4242"
+    volumes:
+      - website:/var/www/html
     networks: 
       - inception
     env_file: 
