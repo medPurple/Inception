@@ -124,7 +124,8 @@ services:
     restart: always
   
   adminer:
-    image: adminer
+    build:
+      context: requirements/bonus/adminer
     container_name: adminer
     ports:
       - "8080:8080"

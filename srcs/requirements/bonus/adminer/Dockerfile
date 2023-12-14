@@ -12,4 +12,4 @@ RUN mv /usr/share/adminer/* /var/www/adminer/
 
 EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/adminer/"]
