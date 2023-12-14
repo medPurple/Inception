@@ -7,28 +7,25 @@ chown -R ${FTP_USER}:${FTP_USER} /var/www/html/
 echo "${FTP_USER}" | tee -a /etc/vsftpd.userlist
 
 # Mofification config file
-sed -i -r "s/listen=NO/listen=YES/1"   /etc/vsftpd.conf
-sed -i -r "s/listen_ipv6=YES/#listen_ipv6=YES/1"   /etc/vsftpd.conf
-sed -i -r "s/connect_from_port_20=YES/connect_from_port_20=NO/1"   /etc/vsftpd.conf
-sed -i -r "s/#write_enable=YES/write_enable=YES/1"   /etc/vsftpd.conf
-sed -i -r "s/#chroot_local_user=YES/chroot_local_user=YES/1"   /etc/vsftpd.conf
-sed -i -r "s/ssl_enable=NO/ssl_enable=YES/1"   /etc/vsftpd.conf
+sed -i -r "s/listen=NO/listen=YES/1"                                /etc/vsftpd.conf
+sed -i -r "s/listen_ipv6=YES/#listen_ipv6=YES/1"                    /etc/vsftpd.conf
+sed -i -r "s/connect_from_port_20=YES/connect_from_port_20=NO/1"    /etc/vsftpd.conf
+sed -i -r "s/#write_enable=YES/write_enable=YES/1"                  /etc/vsftpd.conf
+#sed -i -r "s/#chroot_local_user=YES/chroot_local_user=YES/1"        /etc/vsftpd.conf
+sed -i -r "s/ssl_enable=NO/ssl_enable=YES/1"                        /etc/vsftpd.conf
 
+echo "listen_port=21"                       | tee -a /etc/vsftpd.conf
+echo "listen_address=0.0.0.0"               | tee -a /etc/vsftpd.conf
 
-echo "
-listen_port=21
-listen_address=0.0.0.0
-seccomp_sandbox=NO
+echo "pasv_enable=YES"                      | tee -a /etc/vsftpd.conf
+echo "pasv_min_port=15110"                  | tee -a /etc/vsftpd.conf
+echo "pasv_max_port=15111"                  | tee -a /etc/vsftpd.conf
 
-pasv_enable=YES
-pasv_min_port=21100
-pasv_max_port=21110
+echo "allow_writeable_chroot=YES"           | tee -a /etc/vsftpd.conf
+echo "local_root=/var/www/html/"            | tee -a /etc/vsftpd.conf
 
-allow_writeable_chroot=YES
-user_sub_token=$USER
-local_root=/var/www/html/inception
-userlist_enable=YES
-userlist_file=/etc/vsftpd.userlist
-userlist_deny=NO" | tee -a /etc/vsftpd.conf
+echo "userlist_enable=YES"                  | tee -a /etc/vsftpd.conf
+echo "userlist_file=/etc/vsftpd.userlist"   | tee -a /etc/vsftpd.conf
+echo "userlist_deny=NO"                     | tee -a /etc/vsftpd.conf
 
 /usr/sbin/vsftpd /etc/vsftpd.conf
