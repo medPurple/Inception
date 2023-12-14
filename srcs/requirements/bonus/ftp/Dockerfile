@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update && apt install -y vsftpd
+RUN apt update && apt-get upgrade -y && apt install -y vsftpd
 
 COPY ./tools/ftp_script.sh /ftp_script.sh
 
