@@ -26,6 +26,14 @@ volumes:
       type: none
       o: bind
       device: '/home/wmessmer/data/website'
+  minecraft:
+    name: minecraft
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/wmessmer/data/minecraft'
+
 
 services:
   nginx:
@@ -133,4 +141,19 @@ services:
       - inception
     depends_on:
       - mariadb
+    restart: always
+  
+  minecraft:
+    image: minecraft
+    container_name: minecraft
+    build:
+      context: requirements/bonus/minecraft
+    ports:
+      - "25565:25565"
+    volumes:
+      - minecraft:/var/www/html
+    networks: 
+      - inception
+    env_file: 
+      - .env
     restart: always
