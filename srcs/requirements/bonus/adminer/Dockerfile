@@ -1,4 +1,4 @@
-FROM debian:11
+FROM debian:bullseye
 
 MAINTAINER <wmessmer@42.fr>
 

@@ -18,6 +18,7 @@ clean:
 	@sudo docker-compose -f ./srcs/docker-compose.yml down
 	@sudo docker system prune -af
 	@sudo docker volume prune -af
+	@sudo docker volume rm mariadb minecraft website wordpress
 	@sudo rm -rf /home/wmessmer/data
 
 re : clean all
